@@ -1,5 +1,5 @@
-use burn::tensor::Tensor;
 use burn::backend::Wgpu;
+use burn::tensor::Tensor;
 
 // Type alias for the backend to use.
 type Backend = Wgpu;

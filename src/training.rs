@@ -10,18 +10,16 @@ use burn::{
     nn::loss::CrossEntropyLossConfig,
     optim::SgdConfig,
     prelude::*,
-    record::{CompactRecorder, Recorder},
+    record::CompactRecorder,
     tensor::backend::AutodiffBackend,
     train::{
         metric::{AccuracyMetric, LossMetric},
         ClassificationOutput, LearnerBuilder, TrainOutput, TrainStep, ValidStep,
     },
 };
-use burn::data::dataloader::Dataset;
 
-
-const NUM_CLASSES: u8 = 10;
-const ARTIFACT_DIR: &str = "/tmp/custom-image-dataset";
+pub const NUM_CLASSES: u8 = 10;
+pub const ARTIFACT_DIR: &str = "/tmp/custom-image-dataset";
 
 impl<B: Backend> Cnn<B> {
     pub fn forward_classification(
@@ -116,17 +114,3 @@ pub fn train<B: AutodiffBackend>(config: TrainingConfig, device: B::Device) {
         .save_file(format!("{ARTIFACT_DIR}/model"), &CompactRecorder::new())
         .expect("Trained model should be saved successfully");
 }
-
-
-// pub fn infer<B: Backend>(artifact_dir: &str, device: B::Device) { 
-//     let config = TrainingConfig::load(format!("{artifact_dir}/config.json"))
-//         .expect("Config should exist for the model");
-//     let record = CompactRecorder::new()
-//         .load(format!("{artifact_dir}/model").into(), &device)
-//         .expect("Trained model should exist");
-//     let dataset = ImageFolderDataset::cifar10_test();
-
-//     let value = dataset.get(0).unwrap();
-// }
-
-
