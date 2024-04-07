@@ -14,7 +14,9 @@ pub fn infer<B: Backend>(artifact_dir: &str, device: B::Device) {
     let model: Cnn<B> = Cnn::new(NUM_CLASSES.into(), &device).load_record(record);
 
     let dataset = ImageFolderDataset::cifar10_test();
-    let item = dataset.get(0).unwrap();
+    let length = dataset.len();
+    println!("{}", length);
+    let item = dataset.get(9999).unwrap();
     let annotation = item.clone().annotation;
     
     let batcher = ClassificationBatcher::new(device);

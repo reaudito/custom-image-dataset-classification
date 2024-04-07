@@ -7,6 +7,13 @@ mod wgpu {
         optim::{momentum::MomentumConfig, SgdConfig},
     };
     use burn_image_training::training::{train, TrainingConfig};
+    use burn::backend::wgpu::AutoGraphicsApi;
+     
+
+    use burn_image_training::inference::infer;
+    
+    pub const MODEL_DIR: &str = "model";
+    type MyBackend = Wgpu<AutoGraphicsApi, f32, i32>;
 
     pub fn run() {
         train::<Autodiff<Wgpu>>(
@@ -18,8 +25,13 @@ mod wgpu {
             WgpuDevice::default(),
         );
     }
+
+    pub fn inference() {
+        infer::<MyBackend>(MODEL_DIR, WgpuDevice::default());
+    }
 }
 
+
 fn main() {
-    wgpu::run();
+    wgpu::inference();
 }
