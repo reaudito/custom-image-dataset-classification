@@ -3,10 +3,13 @@ use std::path::{Path, PathBuf};
 use tar::Archive;
 
 use burn::data::{dataset::vision::ImageFolderDataset, network::downloader};
+use crate::training::ARTIFACT_DIR;
 
 /// CIFAR-10 mirror from [fastai](https://github.com/fastai/fastai/blob/master/fastai/data/external.py#L44).
 /// Licensed under the [Appache License](https://github.com/fastai/fastai/blob/master/LICENSE).
 const URL: &str = "https://s3.amazonaws.com/fast-ai-sample/cifar10.tgz";
+// const URL: &str = "https://en.wikipedia.org/wiki/Image#/media/File:Image_created_with_a_mobile_phone.png";
+
 
 /// The [CIFAR-10](https://www.cs.toronto.edu/%7Ekriz/cifar.html) dataset consists of 60,000 32x32
 /// colour images, with 6,000 images per class. There are 50,000 training images and 10,000 test
@@ -37,10 +40,9 @@ impl CIFAR10Loader for ImageFolderDataset {
 /// Download the CIFAR10 dataset from the web to the current example directory.
 fn download() -> PathBuf {
     // Point to current example directory
-    let example_dir = Path::new(file!()).parent().unwrap().parent().unwrap();
+    let example_dir = Path::new(ARTIFACT_DIR);
     let cifar_dir = example_dir.join("cifar10");
-
-    // Check for already downloaded content
+        // Check for already downloaded content
     let labels_file = cifar_dir.join("labels.txt");
     if !labels_file.exists() {
         // Download gzip file

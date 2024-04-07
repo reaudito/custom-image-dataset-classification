@@ -19,7 +19,7 @@ use burn::{
 };
 
 pub const NUM_CLASSES: u8 = 10;
-pub const ARTIFACT_DIR: &str = "/tmp/custom-image-dataset";
+pub const ARTIFACT_DIR: &str = "custom-image-dataset-artifact";
 
 impl<B: Backend> Cnn<B> {
     pub fn forward_classification(
