@@ -8,7 +8,6 @@ use crate::training::ARTIFACT_DIR;
 /// CIFAR-10 mirror from [fastai](https://github.com/fastai/fastai/blob/master/fastai/data/external.py#L44).
 /// Licensed under the [Appache License](https://github.com/fastai/fastai/blob/master/LICENSE).
 const URL: &str = "https://s3.amazonaws.com/fast-ai-sample/cifar10.tgz";
-// const URL: &str = "https://en.wikipedia.org/wiki/Image#/media/File:Image_created_with_a_mobile_phone.png";
 
 
 /// The [CIFAR-10](https://www.cs.toronto.edu/%7Ekriz/cifar.html) dataset consists of 60,000 32x32

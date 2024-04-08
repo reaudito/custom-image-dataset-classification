@@ -5,6 +5,7 @@ use burn::{
     data::dataset::vision::ImageFolderDataset,
     prelude::*,
     record::{CompactRecorder, Recorder},
+    tensor::activation::softmax,
 };
 
 pub fn infer<B: Backend>(artifact_dir: &str, device: B::Device) {
@@ -15,13 +16,15 @@ pub fn infer<B: Backend>(artifact_dir: &str, device: B::Device) {
 
     let dataset = ImageFolderDataset::cifar10_test();
     let length = dataset.len();
-    println!("{}", length);
+    println!("Length of dataset {}", length);
     let item = dataset.get(9999).unwrap();
     let annotation = item.clone().annotation;
     
     let batcher = ClassificationBatcher::new(device);
     let batch = batcher.batch(vec![item]);
     let output = model.forward(batch.images);
-    let predicted = output.argmax(1).flatten::<1>(0, 1).into_scalar();
-    println!("Predicted {} Expected {:?}", predicted, annotation);
+    let predicted = output.clone().argmax(1).flatten::<1>(0, 1).into_scalar();
+    let softmax_prob = softmax(output.clone(), 1).into_data().convert::<f32>().value;
+    let predicted_index: usize = format!("{}", predicted).parse().expect("Failed to parse string to integer");
+    println!("Predicted {}\n Expected {:?}\n Probability {:?}", predicted, annotation, softmax_prob[predicted_index]);
 }
